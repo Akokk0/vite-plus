@@ -1,3 +1,5 @@
+import { pathToFileURL } from 'node:url';
+
 import { resolveLocalVitePlus } from '../binding/index.js';
 import cliPkg from '../package.json' with { type: 'json' };
 import { renderCliDoc } from './utils/help.ts';
@@ -28,7 +30,7 @@ function getCliVersion(): string | null {
  */
 async function resolveToolVersions(localPackagePath: string): Promise<Record<string, string>> {
   try {
-    const mod = await import(`${localPackagePath}/dist/versions.js`);
+    const mod = await import(pathToFileURL(`${localPackagePath}/dist/versions.js`).href);
     if (mod.versions && typeof mod.versions === 'object') {
       return mod.versions as Record<string, string>;
     }
